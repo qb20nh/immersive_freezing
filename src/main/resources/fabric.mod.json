@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "powder_snow_camera_shake",
+	"version": "${version}",
+	"name": "Powder Snow Camera Shake",
+	"description": "Camera shake effect when walking in powder snow.",
+	"authors": [
+		"qb20nh"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/powder-snow-camera-shake"
+	},
+	"license": "MIT",
+	"icon": "assets/powder_snow_camera_shake/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"com.qb20nh.powder_snow_camera_shake.PowderShakeClient"
+		],
+		"modmenu": [
+			"com.qb20nh.powder_snow_camera_shake.compat.modmenu.PowderShakeModMenuApi"
+		]
+	},
+	"mixins": [
+		"powder_snow_camera_shake.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.2",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {}
+}
