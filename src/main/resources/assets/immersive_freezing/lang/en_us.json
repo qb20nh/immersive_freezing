@@ -1,0 +1,11 @@
+{
+  "title.immersive_freezing.config": "Immersive Freezing Config",
+  "category.immersive_freezing.general": "General",
+  "option.immersive_freezing.vignette_enabled": "Vignette Enabled",
+  "option.immersive_freezing.rotation_intensity": "Rotation Intensity",
+  "option.immersive_freezing.translation_intensity": "Translation Intensity",
+  "option.immersive_freezing.vignette_range": "Vignette Range",
+  "option.immersive_freezing.vignette_speed": "Vignette Speed",
+  "option.immersive_freezing.vignette_disturbance_intensity": "Vignette Disturbance Intensity",
+  "option.immersive_freezing.vignette_debug_enabled": "Debug Overlay"
+}

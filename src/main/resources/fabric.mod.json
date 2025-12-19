@@ -1,9 +1,9 @@
 {
 	"schemaVersion": 1,
-	"id": "powder_snow_camera_shake",
+	"id": "immersive_freezing",
 	"version": "${version}",
-	"name": "Powder Snow Camera Shake",
-	"description": "Camera shake effect when walking in powder snow.",
+	"name": "Immersive Freezing 🥶",
+	"description": "Camera shake effect when freezing in powder snow.",
 	"authors": [
 		"qb20nh"
 	],
@@ -11,24 +11,26 @@
 		"homepage": "https://modrinth.com/mod/powder-snow-camera-shake"
 	},
 	"license": "MIT",
-	"icon": "assets/powder_snow_camera_shake/icon.png",
+	"icon": "assets/immersive_freezing/icon.png",
 	"environment": "client",
 	"entrypoints": {
 		"client": [
-			"com.qb20nh.powder_snow_camera_shake.PowderShakeClient"
+			"com.qb20nh.immersive_freezing.ImmersiveFreezingClient"
 		],
 		"modmenu": [
-			"com.qb20nh.powder_snow_camera_shake.compat.modmenu.PowderShakeModMenuApi"
+			"com.qb20nh.immersive_freezing.compat.modmenu.ImmersiveFreezingModMenuApi"
 		]
 	},
 	"mixins": [
-		"powder_snow_camera_shake.mixins.json"
+		"immersive_freezing.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.18.2",
-		"minecraft": "~1.21.11",
-		"java": ">=21",
-		"fabric-api": "*"
+		"fabricloader": ">=${loader_version}",
+		"fabric": "*",
+		"minecraft": "${minecraft_version}",
+		"cloth-config": ">=9.0.0"
 	},
-	"suggests": {}
+	"suggests": {
+		"modmenu": "*"
+	}
 }

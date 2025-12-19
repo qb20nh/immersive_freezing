@@ -1,9 +1,11 @@
 {
 	"required": true,
-	"package": "com.qb20nh.powder_snow_camera_shake.mixin",
+	"package": "com.qb20nh.immersive_freezing.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"MainTargetMixin"
+		"CameraShakeMixin",
+		"FreezeOverlayFadeMixin",
+		"ItemInHandTrembleMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

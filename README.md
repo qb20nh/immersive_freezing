@@ -1,27 +1,22 @@
-# cbbg
+# Immersive Freezing 🥶
 
-color banding be gone - Remove pesky color banding from Minecraft
-
-**cbbg** is a client-side Fabric mod that reduces visible color banding by:
-
-- Using a **higher-precision render target** (RGBA16F)
-- Applying **STBN blue-noise dithering** to final image
-
-Helps reduce color banding on following:
-
-* Smooth lighting
-* Skybox
-* Vignette
+**Immersive Freezing** is a client-side Fabric mod that enhances the visual experience of freezing in Minecraft (e.g., in powder snow). It introduces a camera shake effect and a frosty vignette that intensifies as you freeze, making the danger feel more immediate and immersive.
 
 ## What it does
 
-- **Higher render precision**: upgrades the *main* render target color attachment to **RGBA16F**.
-- **Blue-noise dithering**: applies a lightweight full-screen pass using **STBN** noise to break up 8-bit quantization banding.
+When you are freezing (e.g., inside powder snow):
+
+- **Camera Shake:** The camera will gently shake and rotate, simulating the shivering of the player.
+- **Frost Vignette:** A frost effect creeps in from the edges of your screen, growing stronger as your freeze percentage increases.
+
+All effects are purely visual and do not affect gameplay mechanics.
 
 ## Installation
 
 - Install **Fabric Loader** and **Fabric API** for your Minecraft version.
-- Put the `cbbg-x.x.x.jar` into your `.minecraft/mods` folder.
+- Install **Cloth Config API** (Required).
+- (Optional) Install **Mod Menu** to access the in-game configuration screen.
+- Put the `immersive_freezing-x.x.x.jar` into your `.minecraft/mods` folder.
 
 This mod is **client-only**. It does not need to be installed on servers.
 
@@ -29,31 +24,29 @@ This mod is **client-only**. It does not need to be installed on servers.
 
 ### In-game (recommended)
 
-If you have **Mod Menu** installed, open cbbg’s config screen and select:
+If you have **Mod Menu** installed, you can access the configuration screen directly from the Mods list.
 
-- **Enabled**
-- **Disabled**
-- **Demo (split)**: left = enabled (dither), right = disabled (no dither)
+Available options:
+
+- **Rotation Intensity:** Adjusts how much the camera rotates during the shake effect.
+- **Translation Intensity:** Adjusts how much the camera moves side-to-side during the shake effect.
+- **Vignette Enabled:** Toggles the frost vignette overlay.
+- **Vignette Range:** Controls the spread of the vignette.
+- **Vignette Speed:** Controls how fast the vignette pulse/disturbance animates.
+- **Vignette Disturbance Intensity:** Controls the intensity of the vignette's fluctuating effect.
+- **Debug Overlay:** Shows debug information about the freezing effect.
 
 ### Config file
 
-Config file: `.minecraft/config/cbbg.json`
-
-Example:
-
-```json
-{
-  "mode": "ENABLED"
-}
-```
-
-Valid values: `ENABLED`, `DISABLED`, `DEMO`.
+You can also edit the config file located at `.minecraft/config/immersive_freezing.json`.
 
 ## Compatibility notes
 
-- **Iris shaderpacks**: when an Iris shaderpack is active, cbbg is **forced OFF** to avoid pipeline conflicts.
-- **GPU support**: if RGBA16F allocation fails on your device/driver, cbbg will automatically fall back to RGBA8 for the remainder of the session.
+- Requires **Fabric API**.
+- Requires **Cloth Config API**.
+- Should be compatible with most other client-side mods.
 
 ## Credits / Third-party assets
 
-- Includes **STBN** textures. See `src/main/resources/assets/cbbg/licenses/NVIDIA-RTX-STBN-License.txt`.
+- Developed by **qb20nh**.
+- Licensed under **MIT**.
