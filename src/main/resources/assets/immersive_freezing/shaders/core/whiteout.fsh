@@ -29,9 +29,9 @@ void main() {
     }
 
     // Tuned for "slight" whiteout: reduce saturation + contrast and blend a bit toward white.
-    float saturationLoss = 0.45; // at strength=1
-    float contrastLoss = 0.30;   // at strength=1
-    float whiteMix = 0.18;       // at strength=1
+    float saturationLoss = 0.5; // at strength=1
+    float contrastLoss = 0.3;   // at strength=1
+    float whiteMix = 0.2;       // at strength=1
 
     float luma = immersive_freezing_luma(src.rgb);
     vec3 gray = vec3(luma);
@@ -40,7 +40,9 @@ void main() {
     float contrast = 1.0 - strength * contrastLoss;
     vec3 contrasted = (desaturated - 0.5) * contrast + 0.5;
 
-    vec3 outRgb = mix(contrasted, vec3(1.0), strength * whiteMix);
+    // Slightly tinted whiteout target to feel more icy (cyan/blue) than pure white.
+    vec3 icyTint = vec3(0.78, 0.93, 1.0);
+    vec3 outRgb = mix(contrasted, icyTint, strength * whiteMix);
     outRgb = clamp(outRgb, 0.0, 1.0);
 
     fragColor = vec4(outRgb, src.a);
