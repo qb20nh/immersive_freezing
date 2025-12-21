@@ -48,3 +48,4 @@ You can also edit the config file located at `.minecraft/config/immersive_freezi
 
 - Developed by **qb20nh**.
 - Licensed under **MIT**.
+- **Third-party notices**: see `THIRD_PARTY_NOTICES.md` (includes any ElevenLabs-generated SFX usage/attribution constraints, if present).

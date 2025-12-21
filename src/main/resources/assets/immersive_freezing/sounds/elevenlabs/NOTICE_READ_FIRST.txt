@@ -1,0 +1,10 @@
+DO NOT REUSE THESE SOUND STANDALONE
+
+These audio files (when present) are NOT covered by this repository's MIT license.
+They are provided only as part of the Immersive Freezing mod and must not be reused,
+redistributed, sublicensed, or published as standalone sound files/sound packs.
+
+See THIRD_PARTY_NOTICES.md at the repository root for details and links to:
+- https://elevenlabs.io/terms-of-use
+- https://elevenlabs.io/use-policy
+- https://help.elevenlabs.io/hc/en-us/articles/13313564601361-Can-I-publish-the-content-I-generate-on-the-platform

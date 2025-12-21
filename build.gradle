@@ -79,6 +79,9 @@ jar {
 		rename { "${it}_${inputs.properties.archivesName}"}
 	}
 
+	from("THIRD_PARTY_NOTICES.md") {
+		rename { "THIRD_PARTY_NOTICES_${inputs.properties.archivesName}.md" }
+	}
 
 }
 
