@@ -112,6 +112,10 @@ public final class ImmersiveFreezingConfigScreen extends OptionsSubScreen {
                 list.addBig(percentSlider("option.immersive_freezing.whiteout_intensity",
                                 Math.round(config.whiteoutIntensity * 100.0f),
                                 newValue -> config.whiteoutIntensity = newValue / 100.0f));
+
+                list.addBig(percentSlider("option.immersive_freezing.freeze_sound_volume",
+                                Math.round(config.freezeSoundVolume * 100.0f),
+                                newValue -> config.freezeSoundVolume = newValue / 100.0f));
         }
 
         @Override

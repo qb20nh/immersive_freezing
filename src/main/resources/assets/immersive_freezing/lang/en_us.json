@@ -9,5 +9,6 @@
   "option.immersive_freezing.vignette_disturbance_intensity": "Vignette Disturbance Intensity",
   "option.immersive_freezing.vignette_debug_enabled": "Debug Overlay",
   "option.immersive_freezing.whiteout_enabled": "Whiteout Enabled",
-  "option.immersive_freezing.whiteout_intensity": "Whiteout Intensity"
+  "option.immersive_freezing.whiteout_intensity": "Whiteout Intensity",
+  "option.immersive_freezing.freeze_sound_volume": "Freeze Sound Volume"
 }

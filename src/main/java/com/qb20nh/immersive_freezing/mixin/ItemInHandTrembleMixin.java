@@ -31,8 +31,7 @@ public abstract class ItemInHandTrembleMixin {
         private static final float YAW_DEGREES_SCALE = 8.0f;
         private static final float ROLL_DEGREES_SCALE = 14.0f;
 
-        private static final float TRANSLATION_SCALE = 0.15f;
-        private static final float TRANSLATION_AMPLITUDE = 0.5f;
+        private static final float TRANSLATION_SCALE = 0.02f;
 
         @Inject(method = "renderArmWithItem",
                         at = @At(value = "INVOKE",
@@ -74,11 +73,9 @@ public abstract class ItemInHandTrembleMixin {
                 if (transIntensity > 0.0f) {
                         float phaseShift = (float) (Math.PI / 2);
                         float x = (float) Math.sin(time * SHIVER_SPEED + phaseShift)
-                                        * TRANSLATION_AMPLITUDE * transIntensity * TRANSLATION_SCALE
-                                        * invert;
+                                        * transIntensity * TRANSLATION_SCALE * invert;
                         float y = (float) Math.cos(time * SHIVER_SPEED * 1.5f + phaseShift)
-                                        * TRANSLATION_AMPLITUDE * transIntensity
-                                        * TRANSLATION_SCALE;
+                                        * transIntensity * TRANSLATION_SCALE;
                         poseStack.translate(x, y, 0.0f);
                 }
         }

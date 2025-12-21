@@ -38,6 +38,8 @@ public final class ImmersiveFreezingConfig {
     public boolean whiteoutEnabled = true;
     public float whiteoutIntensity = 0.35f;
 
+    public float freezeSoundVolume = 1.0f;
+
     public static ImmersiveFreezingConfig get() {
         return INSTANCE;
     }
@@ -68,8 +70,7 @@ public final class ImmersiveFreezingConfig {
 
         try {
             Files.createDirectories(path.getParent());
-            try (BufferedWriter writer =
-                    Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
+            try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
                 GSON.toJson(config, writer);
             }
         } catch (IOException e) {
@@ -93,6 +94,7 @@ public final class ImmersiveFreezingConfig {
         this.vignetteDebugEnabled = other.vignetteDebugEnabled;
         this.whiteoutEnabled = other.whiteoutEnabled;
         this.whiteoutIntensity = other.whiteoutIntensity;
+        this.freezeSoundVolume = other.freezeSoundVolume;
         this.validate();
     }
 
@@ -103,6 +105,7 @@ public final class ImmersiveFreezingConfig {
         vignetteSpeed = clamp(vignetteSpeed, VIGNETTE_SPEED_MIN, VIGNETTE_SPEED_MAX);
         vignetteDisturbanceIntensity = clamp(vignetteDisturbanceIntensity, 0.0f, 1.0f);
         whiteoutIntensity = clamp(whiteoutIntensity, 0.0f, 1.0f);
+        freezeSoundVolume = clamp(freezeSoundVolume, 0.0f, 1.0f);
     }
 
     private static float clamp(float value, float minInclusive, float maxInclusive) {
