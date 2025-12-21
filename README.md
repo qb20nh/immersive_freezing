@@ -14,7 +14,6 @@ All effects are purely visual and do not affect gameplay mechanics.
 ## Installation
 
 - Install **Fabric Loader** and **Fabric API** for your Minecraft version.
-- Install **Cloth Config API** (Required).
 - (Optional) Install **Mod Menu** to access the in-game configuration screen.
 - Put the `immersive_freezing-x.x.x.jar` into your `.minecraft/mods` folder.
 
@@ -43,7 +42,6 @@ You can also edit the config file located at `.minecraft/config/immersive_freezi
 ## Compatibility notes
 
 - Requires **Fabric API**.
-- Requires **Cloth Config API**.
 - Should be compatible with most other client-side mods.
 
 ## Credits / Third-party assets

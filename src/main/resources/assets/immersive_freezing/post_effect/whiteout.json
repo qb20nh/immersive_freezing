@@ -1,0 +1,23 @@
+{
+  "passes": [
+    {
+      "vertex_shader": "immersive_freezing:core/whiteout",
+      "fragment_shader": "immersive_freezing:core/whiteout",
+      "inputs": [
+        {
+          "sampler_name": "Diffuse",
+          "target": "minecraft:main",
+          "bilinear": true
+        }
+      ],
+      "output": "minecraft:main",
+      "uniforms": {
+        "WhiteoutSettings": [
+          { "type": "float", "value": 0.0 }
+        ]
+      }
+    }
+  ]
+}
+
+

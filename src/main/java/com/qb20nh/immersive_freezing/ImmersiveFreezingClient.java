@@ -1,8 +1,6 @@
 package com.qb20nh.immersive_freezing;
 
 import com.qb20nh.immersive_freezing.config.ImmersiveFreezingConfig;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +12,7 @@ public final class ImmersiveFreezingClient implements ClientModInitializer {
 
   @Override
   public void onInitializeClient() {
-    AutoConfig.register(ImmersiveFreezingConfig.class, GsonConfigSerializer::new);
+    ImmersiveFreezingConfig.load();
     LOGGER.info("Immersive Freezing loaded");
   }
 }

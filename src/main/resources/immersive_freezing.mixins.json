@@ -5,7 +5,10 @@
 	"client": [
 		"CameraShakeMixin",
 		"FreezeOverlayFadeMixin",
-		"ItemInHandTrembleMixin"
+		"ItemInHandTrembleMixin",
+		"PostChainAccessor",
+		"PostPassAccessor",
+		"WhiteoutPostEffectMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
