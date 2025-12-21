@@ -102,10 +102,12 @@ public abstract class FreezeOverlayFadeMixin {
                         return;
                 }
 
-                float progress = Math.clamp(this.immersive_freezing$vignetteProgress, 0.0f, 1.0f);
-                if (progress <= 0.0f) {
+                float progressLinear =
+                                Math.clamp(this.immersive_freezing$vignetteProgress, 0.0f, 1.0f);
+                if (progressLinear <= 0.0f) {
                         return;
                 }
+                float progress = immersive_freezing$easeInQuad(progressLinear);
 
                 Minecraft minecraft = Minecraft.getInstance();
                 var player = minecraft.player;
@@ -133,8 +135,9 @@ public abstract class FreezeOverlayFadeMixin {
 
                         guiGraphics.drawString(minecraft.font,
                                         Component.literal(Objects.requireNonNull(String.format(
-                                                        Locale.ROOT, "IFreeze debug  p=%.3f",
-                                                        progress), "debugText")),
+                                                        Locale.ROOT,
+                                                        "IFreeze debug  p=%.3f eased=%.3f",
+                                                        progressLinear, progress), "debugText")),
                                         pad + 14, pad + 2, 0xFFFFFF, false);
                         guiGraphics.drawString(minecraft.font,
                                         Component.literal(Objects.requireNonNull(String.format(
@@ -172,5 +175,10 @@ public abstract class FreezeOverlayFadeMixin {
                                 "POWDER_SNOW_VIGNETTE");
                 guiGraphics.blit(pipeline, texture, 0, 0, 0.0F, 0.0F, width, height, width, height,
                                 color);
+        }
+
+        private static float immersive_freezing$easeInQuad(float x) {
+                x = Math.clamp(x, 0.0f, 1.0f);
+                return x * x;
         }
 }
