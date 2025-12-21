@@ -1,0 +1,51 @@
+{
+  "ice_crack": {
+    "sounds": [
+      {
+        "name": "immersive_freezing:elevenlabs/ice1",
+        "pitch": 0.95,
+        "weight": 2
+      },
+      {
+        "name": "immersive_freezing:elevenlabs/ice1",
+        "pitch": 1.0,
+        "weight": 3
+      },
+      {
+        "name": "immersive_freezing:elevenlabs/ice1",
+        "pitch": 1.05,
+        "weight": 2
+      },
+      {
+        "name": "immersive_freezing:elevenlabs/ice2",
+        "pitch": 0.95,
+        "weight": 2
+      },
+      {
+        "name": "immersive_freezing:elevenlabs/ice2",
+        "pitch": 1.0,
+        "weight": 3
+      },
+      {
+        "name": "immersive_freezing:elevenlabs/ice2",
+        "pitch": 1.05,
+        "weight": 2
+      },
+      {
+        "name": "immersive_freezing:elevenlabs/ice4",
+        "pitch": 0.95,
+        "weight": 2
+      },
+      {
+        "name": "immersive_freezing:elevenlabs/ice4",
+        "pitch": 1.0,
+        "weight": 3
+      },
+      {
+        "name": "immersive_freezing:elevenlabs/ice4",
+        "pitch": 1.05,
+        "weight": 2
+      }
+    ]
+  }
+}
