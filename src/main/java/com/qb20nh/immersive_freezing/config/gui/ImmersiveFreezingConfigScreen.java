@@ -1,6 +1,8 @@
 package com.qb20nh.immersive_freezing.config.gui;
 
 import com.qb20nh.immersive_freezing.config.ImmersiveFreezingConfig;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.function.IntConsumer;
@@ -21,6 +23,7 @@ public final class ImmersiveFreezingConfigScreen extends OptionsSubScreen {
 
         private static final int PERCENT_MIN = 0;
         private static final int PERCENT_MAX = 100;
+        private static final int FOOTER_BUTTON_WIDTH = 98;
 
         /**
          * GUI scaling for vignette range: scale by 0.1x (so config 10.0 becomes 1.0 in the GUI).
@@ -44,6 +47,20 @@ public final class ImmersiveFreezingConfigScreen extends OptionsSubScreen {
         private static final int VIGNETTE_SPEED_GUI_TENTHS_MAX = 10;
 
         private final ImmersiveFreezingConfig snapshot;
+        private final List<@NonNull OptionInstance<?>> configOptions = new ArrayList<>();
+
+        private OptionInstance<Boolean> vignetteEnabledOption;
+        private OptionInstance<Integer> rotationIntensityOption;
+        private OptionInstance<Integer> translationIntensityOption;
+        private OptionInstance<Integer> handTrembleIntensityOption;
+        private OptionInstance<Integer> vignetteRangeOption;
+        private OptionInstance<Integer> vignetteSpeedOption;
+        private OptionInstance<Integer> vignetteDisturbanceIntensityOption;
+        private OptionInstance<Boolean> vignetteDebugEnabledOption;
+        private OptionInstance<Boolean> vignetteHalfFrostHeightOption;
+        private OptionInstance<Boolean> whiteoutEnabledOption;
+        private OptionInstance<Integer> whiteoutIntensityOption;
+        private OptionInstance<Integer> freezeSoundVolumeOption;
 
         public ImmersiveFreezingConfigScreen(Screen parent) {
                 this(parent, Minecraft.getInstance().options);
@@ -65,76 +82,101 @@ public final class ImmersiveFreezingConfigScreen extends OptionsSubScreen {
 
                 ImmersiveFreezingConfig config = ImmersiveFreezingConfig.get();
 
-                list.addBig(OptionInstance.createBoolean(
+                this.configOptions.clear();
+
+                this.vignetteEnabledOption = OptionInstance.createBoolean(
                                 "option.immersive_freezing.vignette_enabled",
                                 config.vignetteEnabled,
-                                newValue -> config.vignetteEnabled = newValue));
+                                newValue -> config.vignetteEnabled = newValue);
+                addBigOption(list, this.vignetteEnabledOption);
 
-                list.addBig(percentSlider("option.immersive_freezing.rotation_intensity",
+                this.rotationIntensityOption = percentSlider(
+                                "option.immersive_freezing.rotation_intensity",
                                 Math.round(config.rotationIntensity * 100.0f),
-                                newValue -> config.rotationIntensity = newValue / 100.0f));
+                                newValue -> config.rotationIntensity = newValue / 100.0f);
+                addBigOption(list, this.rotationIntensityOption);
 
-                list.addBig(percentSlider("option.immersive_freezing.translation_intensity",
+                this.translationIntensityOption = percentSlider(
+                                "option.immersive_freezing.translation_intensity",
                                 Math.round(config.translationIntensity * 100.0f),
-                                newValue -> config.translationIntensity = newValue / 100.0f));
+                                newValue -> config.translationIntensity = newValue / 100.0f);
+                addBigOption(list, this.translationIntensityOption);
 
-                list.addBig(percentSlider("option.immersive_freezing.hand_tremble_intensity",
+                this.handTrembleIntensityOption = percentSlider(
+                                "option.immersive_freezing.hand_tremble_intensity",
                                 Math.round(config.handTrembleIntensity * 100.0f),
-                                newValue -> config.handTrembleIntensity = newValue / 100.0f));
+                                newValue -> config.handTrembleIntensity = newValue / 100.0f);
+                addBigOption(list, this.handTrembleIntensityOption);
 
-                list.addBig(formattedIntSlider("option.immersive_freezing.vignette_range",
+                this.vignetteRangeOption = formattedIntSlider(
+                                "option.immersive_freezing.vignette_range",
                                 vignetteRangeUiHundredths(config.vignetteRange),
                                 VIGNETTE_RANGE_GUI_HUNDREDTHS_MIN,
                                 VIGNETTE_RANGE_GUI_HUNDREDTHS_MAX,
                                 ImmersiveFreezingConfigScreen::formatHundredths,
                                 newValue -> config.vignetteRange =
-                                                vignetteRangeConfigFromUiHundredths(newValue)));
+                                                vignetteRangeConfigFromUiHundredths(newValue));
+                addBigOption(list, this.vignetteRangeOption);
 
-                list.addBig(formattedIntSlider("option.immersive_freezing.vignette_speed",
+                this.vignetteSpeedOption = formattedIntSlider(
+                                "option.immersive_freezing.vignette_speed",
                                 vignetteSpeedUiTenths(config.vignetteSpeed),
                                 VIGNETTE_SPEED_GUI_TENTHS_MIN, VIGNETTE_SPEED_GUI_TENTHS_MAX,
                                 ImmersiveFreezingConfigScreen::formatTenths,
                                 newValue -> config.vignetteSpeed =
-                                                vignetteSpeedConfigFromUiTenths(newValue)));
+                                                vignetteSpeedConfigFromUiTenths(newValue));
+                addBigOption(list, this.vignetteSpeedOption);
 
-                list.addBig(percentSlider(
+                this.vignetteDisturbanceIntensityOption = percentSlider(
                                 "option.immersive_freezing.vignette_disturbance_intensity",
                                 Math.round(config.vignetteDisturbanceIntensity * 100.0f),
                                 newValue -> config.vignetteDisturbanceIntensity =
-                                                newValue / 100.0f));
+                                                newValue / 100.0f);
+                addBigOption(list, this.vignetteDisturbanceIntensityOption);
 
-                list.addBig(OptionInstance.createBoolean(
+                this.vignetteDebugEnabledOption = OptionInstance.createBoolean(
                                 "option.immersive_freezing.vignette_debug_enabled",
                                 config.vignetteDebugEnabled,
-                                newValue -> config.vignetteDebugEnabled = newValue));
+                                newValue -> config.vignetteDebugEnabled = newValue);
+                addBigOption(list, this.vignetteDebugEnabledOption);
 
-                list.addBig(OptionInstance.createBoolean(
+                this.vignetteHalfFrostHeightOption = OptionInstance.createBoolean(
                                 "option.immersive_freezing.vignette_half_frost_height",
                                 config.vignetteHalfFrostHeight,
-                                newValue -> config.vignetteHalfFrostHeight = newValue));
+                                newValue -> config.vignetteHalfFrostHeight = newValue);
+                addBigOption(list, this.vignetteHalfFrostHeightOption);
 
-                list.addBig(OptionInstance.createBoolean(
+                this.whiteoutEnabledOption = OptionInstance.createBoolean(
                                 "option.immersive_freezing.whiteout_enabled",
                                 config.whiteoutEnabled,
-                                newValue -> config.whiteoutEnabled = newValue));
+                                newValue -> config.whiteoutEnabled = newValue);
+                addBigOption(list, this.whiteoutEnabledOption);
 
-                list.addBig(percentSlider("option.immersive_freezing.whiteout_intensity",
+                this.whiteoutIntensityOption = percentSlider(
+                                "option.immersive_freezing.whiteout_intensity",
                                 Math.round(config.whiteoutIntensity * 100.0f),
-                                newValue -> config.whiteoutIntensity = newValue / 100.0f));
+                                newValue -> config.whiteoutIntensity = newValue / 100.0f);
+                addBigOption(list, this.whiteoutIntensityOption);
 
-                list.addBig(percentSlider("option.immersive_freezing.freeze_sound_volume",
+                this.freezeSoundVolumeOption = percentSlider(
+                                "option.immersive_freezing.freeze_sound_volume",
                                 Math.round(config.freezeSoundVolume * 100.0f),
-                                newValue -> config.freezeSoundVolume = newValue / 100.0f));
+                                newValue -> config.freezeSoundVolume = newValue / 100.0f);
+                addBigOption(list, this.freezeSoundVolumeOption);
         }
 
         @Override
         protected void addFooter() {
                 LinearLayout footer = LinearLayout.horizontal().spacing(8);
+                footer.addChild(Button
+                                .builder(Component.translatable("button.immersive_freezing.reset"),
+                                                button -> resetToDefaults())
+                                .width(FOOTER_BUTTON_WIDTH).build());
                 footer.addChild(Button.builder(CommonComponents.GUI_DONE, button -> saveAndClose())
-                                .width(150).build());
+                                .width(FOOTER_BUTTON_WIDTH).build());
                 footer.addChild(Button
                                 .builder(CommonComponents.GUI_CANCEL, button -> cancelAndClose())
-                                .width(150).build());
+                                .width(FOOTER_BUTTON_WIDTH).build());
                 this.layout.addToFooter(footer);
         }
 
@@ -155,6 +197,42 @@ public final class ImmersiveFreezingConfigScreen extends OptionsSubScreen {
         private void cancelAndClose() {
                 ImmersiveFreezingConfig.get().applyFrom(this.snapshot);
                 this.minecraft.setScreen(this.lastScreen);
+        }
+
+        private void resetToDefaults() {
+                OptionsList list = this.list;
+                if (list == null || this.configOptions.isEmpty()) {
+                        return;
+                }
+
+                ImmersiveFreezingConfig defaults = new ImmersiveFreezingConfig();
+
+                this.vignetteEnabledOption.set(defaults.vignetteEnabled);
+                this.rotationIntensityOption.set(Math.round(defaults.rotationIntensity * 100.0f));
+                this.translationIntensityOption
+                                .set(Math.round(defaults.translationIntensity * 100.0f));
+                this.handTrembleIntensityOption
+                                .set(Math.round(defaults.handTrembleIntensity * 100.0f));
+                this.vignetteRangeOption.set(vignetteRangeUiHundredths(defaults.vignetteRange));
+                this.vignetteSpeedOption.set(vignetteSpeedUiTenths(defaults.vignetteSpeed));
+                this.vignetteDisturbanceIntensityOption
+                                .set(Math.round(defaults.vignetteDisturbanceIntensity * 100.0f));
+                this.vignetteDebugEnabledOption.set(defaults.vignetteDebugEnabled);
+                this.vignetteHalfFrostHeightOption.set(defaults.vignetteHalfFrostHeight);
+                this.whiteoutEnabledOption.set(defaults.whiteoutEnabled);
+                this.whiteoutIntensityOption.set(Math.round(defaults.whiteoutIntensity * 100.0f));
+                this.freezeSoundVolumeOption.set(Math.round(defaults.freezeSoundVolume * 100.0f));
+
+                for (@NonNull
+                OptionInstance<?> option : this.configOptions) {
+                        list.resetOption(option);
+                }
+        }
+
+        private <T> void addBigOption(@NonNull OptionsList list,
+                        @NonNull OptionInstance<T> option) {
+                list.addBig(option);
+                this.configOptions.add(option);
         }
 
         private static @NonNull OptionInstance<Integer> percentSlider(@NonNull String captionId,

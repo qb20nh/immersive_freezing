@@ -12,5 +12,6 @@
   "option.immersive_freezing.vignette_half_frost_height": "Frost Texture Height Fix",
   "option.immersive_freezing.whiteout_enabled": "Whiteout Enabled",
   "option.immersive_freezing.whiteout_intensity": "Whiteout Intensity",
-  "option.immersive_freezing.freeze_sound_volume": "Freeze Sound Volume"
+  "option.immersive_freezing.freeze_sound_volume": "Freeze Sound Volume",
+  "button.immersive_freezing.reset": "Reset"
 }
