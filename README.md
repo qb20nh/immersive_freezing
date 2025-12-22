@@ -6,16 +6,26 @@
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/qb20nh/immersive_freezing/gradle.yml?logo=github)](https://github.com/qb20nh/immersive_freezing/actions/workflows/gradle.yml)
 [![Funding Github](https://qb20nh.github.io/githubstatic/dist/funding-github-hotpink.svg)](https://github.com/sponsors/qb20nh)
 
-**Immersive Freezing** is a client-side Fabric mod that enhances the visual experience of freezing in Minecraft (e.g., in powder snow). It introduces a camera shake effect and a frosty vignette that intensifies as you freeze, making the danger feel more immediate and immersive.
+**Immersive Freezing** is a client-side Fabric mod that makes freezing feel more intense through configurable **visual and audio** feedback (e.g., while freezing in powder snow).
 
-## What it does
+## Features
 
-When you are freezing (e.g., inside powder snow):
+When you’re freezing:
 
-- **Camera Shake:** The camera will gently shake and rotate, simulating the shivering of the player.
-- **Frost Vignette:** A frost effect creeps in from the edges of your screen, growing stronger as your freeze percentage increases.
+- **First-person camera shake**: configurable **rotation** + **translation** shake that scales with how frozen you are.
+- **First-person hand/item tremble**: makes the held item/arm subtly shiver (separate intensity slider).
+- **Frost vignette overlay**: a configurable frost effect that **fades in/out smoothly** as you enter/leave freezing conditions.
+  - **Resource-pack friendly**: uses the vanilla powder snow overlay texture.
+  - **Frost Texture Height Fix**: optional compatibility toggle for resource packs/merged jars that ship the powder snow overlay at an unexpected height.
+- **Whiteout post-effect**: optional screen whiteout that ramps up as you freeze (configurable intensity).
+- **Ice crack SFX**: plays a short ice-crack sound as you start freezing; volume is configurable and the sound fades out smoothly while thawing.
 
-All effects are purely visual and do not affect gameplay mechanics.
+All effects are **client-only** and **cosmetic** (no gameplay/mechanics changes).
+
+## Video comparison
+
+- [Vanilla Freeze](https://www.youtube.com/watch?v=pjrVJRZpDxI)
+- [Immersive Freeze](https://www.youtube.com/watch?v=mBl7QYUDUHQ)
 
 ## Installation
 
@@ -31,15 +41,19 @@ This mod is **client-only**. It does not need to be installed on servers.
 
 If you have **Mod Menu** installed, you can access the configuration screen directly from the Mods list.
 
-Available options:
+Options:
 
-- **Rotation Intensity:** Adjusts how much the camera rotates during the shake effect.
-- **Translation Intensity:** Adjusts how much the camera moves side-to-side during the shake effect.
-- **Vignette Enabled:** Toggles the frost vignette overlay.
-- **Vignette Range:** Controls the spread of the vignette.
-- **Vignette Speed:** Controls how fast the vignette pulse/disturbance animates.
-- **Vignette Disturbance Intensity:** Controls the intensity of the vignette's fluctuating effect.
-- **Debug Overlay:** Shows debug information about the freezing effect.
+- **Vignette Enabled**
+- **Rotation Intensity**
+- **Translation Intensity**
+- **Hand Tremble Intensity**
+- **Vignette Range**
+- **Vignette Speed**
+- **Vignette Disturbance Intensity**
+- **Frost Texture Height Fix**
+- **Whiteout Enabled**
+- **Whiteout Intensity**
+- **Freeze Sound Volume**
 
 ### Config file
 
