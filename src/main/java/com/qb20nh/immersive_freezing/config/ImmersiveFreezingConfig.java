@@ -28,18 +28,18 @@ public final class ImmersiveFreezingConfig {
 
     public float rotationIntensity = 0.7f;
     public float translationIntensity = 0.3f;
-    public float handTrembleIntensity = 0.5f;
+    public float handTrembleIntensity = 0.1f;
 
     public boolean vignetteEnabled = true;
     public float vignetteRange = 1.0f;
     public float vignetteSpeed = 1.0f;
-    public float vignetteDisturbanceIntensity = 0.5f;
+    public float vignetteDisturbanceIntensity = 1.0f;
     public boolean vignetteDebugEnabled = false;
 
     public boolean whiteoutEnabled = true;
     public float whiteoutIntensity = 0.35f;
 
-    public float freezeSoundVolume = 1.0f;
+    public float freezeSoundVolume = 0.5f;
 
     public static ImmersiveFreezingConfig get() {
         return INSTANCE;
