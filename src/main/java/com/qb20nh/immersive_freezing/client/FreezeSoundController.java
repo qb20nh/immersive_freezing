@@ -8,9 +8,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.SoundManager;
 
 public final class FreezeSoundController {
-    private static final float ICE_CRACK_TRIGGER_THRESHOLD = 0.2f;
-    private static final float ICE_CRACK_REARM_HIGH_WATER_MARK = 0.8f;
-    private static final float ICE_CRACK_REARM_RESET_THRESHOLD = 0.2f;
+    private static final float ICE_CRACK_TRIGGER_THRESHOLD = 0.1f;
+    private static final float ICE_CRACK_REARM_HIGH_WATER_MARK = 0.2f;
+    private static final float ICE_CRACK_REARM_RESET_THRESHOLD = 0.1f;
 
     private static final FreezeSoundController INSTANCE = new FreezeSoundController();
 
