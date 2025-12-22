@@ -9,6 +9,7 @@ public final class IceCrackSoundInstance extends AbstractTickableSoundInstance {
     private static final int FADE_OUT_DURATION_TICKS = 8; // 0.4s @ 20 TPS
 
     private final float baseVolume;
+    private float externalVolumeMultiplier = 1.0f;
     private int fadeOutTicksRemaining;
 
     public IceCrackSoundInstance(SoundEvent soundEvent, float baseVolume) {
@@ -29,15 +30,16 @@ public final class IceCrackSoundInstance extends AbstractTickableSoundInstance {
 
     @Override
     public void tick() {
+        float externalMultiplier = Math.clamp(this.externalVolumeMultiplier, 0.0f, 1.0f);
         if (this.fadeOutTicksRemaining > 0) {
             this.fadeOutTicksRemaining--;
             float multiplier = this.fadeOutTicksRemaining / (float) FADE_OUT_DURATION_TICKS;
-            this.volume = this.baseVolume * multiplier;
+            this.volume = this.baseVolume * multiplier * externalMultiplier;
         } else if (this.fadeOutTicksRemaining == 0) {
             this.volume = 0.0f;
             this.stop();
         } else {
-            this.volume = this.baseVolume;
+            this.volume = this.baseVolume * externalMultiplier;
         }
     }
 
@@ -46,6 +48,10 @@ public final class IceCrackSoundInstance extends AbstractTickableSoundInstance {
             return;
         }
         this.fadeOutTicksRemaining = FADE_OUT_DURATION_TICKS;
+    }
+
+    public void setExternalVolumeMultiplier(float multiplier) {
+        this.externalVolumeMultiplier = Math.clamp(multiplier, 0.0f, 1.0f);
     }
 }
 
