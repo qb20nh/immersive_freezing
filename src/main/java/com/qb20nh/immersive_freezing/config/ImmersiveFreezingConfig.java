@@ -42,7 +42,7 @@ public final class ImmersiveFreezingConfig {
     public boolean vignetteHalfFrostHeight = true;
 
     public boolean whiteoutEnabled = true;
-    public float whiteoutIntensity = 0.35f;
+    public float whiteoutIntensity = 0.5f;
 
     public float freezeSoundVolume = 0.5f;
 
