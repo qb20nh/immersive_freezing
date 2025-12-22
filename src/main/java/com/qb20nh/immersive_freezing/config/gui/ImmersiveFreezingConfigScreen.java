@@ -56,7 +56,6 @@ public final class ImmersiveFreezingConfigScreen extends OptionsSubScreen {
         private OptionInstance<Integer> vignetteRangeOption;
         private OptionInstance<Integer> vignetteSpeedOption;
         private OptionInstance<Integer> vignetteDisturbanceIntensityOption;
-        private OptionInstance<Boolean> vignetteDebugEnabledOption;
         private OptionInstance<Boolean> vignetteHalfFrostHeightOption;
         private OptionInstance<Boolean> whiteoutEnabledOption;
         private OptionInstance<Integer> whiteoutIntensityOption;
@@ -133,12 +132,6 @@ public final class ImmersiveFreezingConfigScreen extends OptionsSubScreen {
                                 newValue -> config.vignetteDisturbanceIntensity =
                                                 newValue / 100.0f);
                 addBigOption(list, this.vignetteDisturbanceIntensityOption);
-
-                this.vignetteDebugEnabledOption = OptionInstance.createBoolean(
-                                "option.immersive_freezing.vignette_debug_enabled",
-                                config.vignetteDebugEnabled,
-                                newValue -> config.vignetteDebugEnabled = newValue);
-                addBigOption(list, this.vignetteDebugEnabledOption);
 
                 this.vignetteHalfFrostHeightOption = OptionInstance.createBoolean(
                                 "option.immersive_freezing.vignette_half_frost_height",
@@ -217,7 +210,6 @@ public final class ImmersiveFreezingConfigScreen extends OptionsSubScreen {
                 this.vignetteSpeedOption.set(vignetteSpeedUiTenths(defaults.vignetteSpeed));
                 this.vignetteDisturbanceIntensityOption
                                 .set(Math.round(defaults.vignetteDisturbanceIntensity * 100.0f));
-                this.vignetteDebugEnabledOption.set(defaults.vignetteDebugEnabled);
                 this.vignetteHalfFrostHeightOption.set(defaults.vignetteHalfFrostHeight);
                 this.whiteoutEnabledOption.set(defaults.whiteoutEnabled);
                 this.whiteoutIntensityOption.set(Math.round(defaults.whiteoutIntensity * 100.0f));

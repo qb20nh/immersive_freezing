@@ -31,10 +31,9 @@ public final class ImmersiveFreezingConfig {
     public float handTrembleIntensity = 0.1f;
 
     public boolean vignetteEnabled = true;
-    public float vignetteRange = 1.0f;
+    public float vignetteRange = 5.0f;
     public float vignetteSpeed = 1.0f;
     public float vignetteDisturbanceIntensity = 1.0f;
-    public boolean vignetteDebugEnabled = false;
     /**
      * Some resource packs (and/or merged jars) ship the vanilla powder-snow overlay texture at a
      * height that is effectively 2x the expected texel grid for the overlay effect. When enabled,
@@ -99,7 +98,6 @@ public final class ImmersiveFreezingConfig {
         this.vignetteRange = other.vignetteRange;
         this.vignetteSpeed = other.vignetteSpeed;
         this.vignetteDisturbanceIntensity = other.vignetteDisturbanceIntensity;
-        this.vignetteDebugEnabled = other.vignetteDebugEnabled;
         this.vignetteHalfFrostHeight = other.vignetteHalfFrostHeight;
         this.whiteoutEnabled = other.whiteoutEnabled;
         this.whiteoutIntensity = other.whiteoutIntensity;

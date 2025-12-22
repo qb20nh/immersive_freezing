@@ -11,7 +11,6 @@ import com.mojang.blaze3d.textures.GpuTexture;
 import com.qb20nh.immersive_freezing.client.ImmersiveFreezingRenderPipelines;
 import com.qb20nh.immersive_freezing.config.ImmersiveFreezingConfig;
 import java.util.Objects;
-import java.util.Locale;
 import java.util.OptionalInt;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,9 +24,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.ARGB;
 
 @Mixin(Gui.class)
 public abstract class FreezeOverlayFadeMixin {
@@ -132,58 +129,19 @@ public abstract class FreezeOverlayFadeMixin {
                 float progress = immersive_freezing$easeInQuad(progressLinear);
 
                 Minecraft minecraft = Minecraft.getInstance();
-                var player = minecraft.player;
-                if (player == null) {
+                if (minecraft.player == null) {
                         return;
                 }
 
                 int width = guiGraphics.guiWidth();
                 int height = guiGraphics.guiHeight();
                 float disturbanceIntensity = config.vignetteDisturbanceIntensity;
-                boolean debugEnabled = config.vignetteDebugEnabled;
-
-                if (debugEnabled) {
-                        // Always-visible indicator that the mixin is running (uses vanilla GUI
-                        // pipeline).
-                        int pad = 2;
-                        int boxW = 190;
-                        int boxH = 56;
-                        guiGraphics.fill(RenderPipelines.GUI, pad, pad, pad + boxW, pad + boxH,
-                                        ARGB.colorFromFloat(0.70f, 0.0f, 0.0f, 0.0f));
-                        guiGraphics.fill(RenderPipelines.GUI, pad + 2, pad + 2, pad + 10, pad + 10,
-                                        ARGB.colorFromFloat(1.0f, 1.0f, 0.0f, 1.0f)); // magenta:
-                                                                                      // hook
-                                                                                      // active
-
-                        guiGraphics.drawString(minecraft.font,
-                                        Component.literal(Objects.requireNonNull(String.format(
-                                                        Locale.ROOT,
-                                                        "IFreeze debug  p=%.3f eased=%.3f",
-                                                        progressLinear, progress), "debugText")),
-                                        pad + 14, pad + 2, 0xFFFFFF, false);
-                        guiGraphics.drawString(minecraft.font,
-                                        Component.literal(Objects.requireNonNull(String.format(
-                                                        Locale.ROOT,
-                                                        "range=%.2f speed=%.2f dist=%.2f in=%s",
-                                                        config.vignetteRange, config.vignetteSpeed,
-                                                        disturbanceIntensity,
-                                                        player.isInPowderSnow), "debugText")),
-                                        pad + 14, pad + 14, 0xB0B0B0, false);
-                        guiGraphics.drawString(minecraft.font,
-                                        Component.literal(Objects.requireNonNull(String.format(
-                                                        Locale.ROOT, "ticks=%d/%d",
-                                                        player.getTicksFrozen(),
-                                                        player.getTicksRequiredToFreeze()),
-                                                        "debugText")),
-                                        pad + 14, pad + 26, 0xB0B0B0, false);
-                }
 
                 // Pack:
                 // - A: progress (0..1)
                 // - R: disturbance intensity (0..1)
-                // - G: debug flag (0 = debug visualization, 1 = normal rendering)
+                // - G: reserved
                 // - B: vignette range (0..1, normalized by VIGNETTE_RANGE_MAX)
-                float debugFlag = debugEnabled ? 0.0f : 1.0f;
                 float rangePacked = Math.clamp(
                                 config.vignetteRange / ImmersiveFreezingConfig.VIGNETTE_RANGE_MAX,
                                 0.0f, 1.0f);
@@ -216,29 +174,16 @@ public abstract class FreezeOverlayFadeMixin {
                                 this.immersive_freezing$vignetteSettingsBuffer,
                                 "vignetteSettingsBuffer");
 
-                if (debugEnabled) {
-                        int pad = 2;
-                        guiGraphics.drawString(minecraft.font,
-                                        Component.literal(Objects.requireNonNull(String.format(
-                                                        Locale.ROOT,
-                                                        "frost=%dx%d target=%dx%d yDown=%d",
-                                                        frostWidth, frostHeight,
-                                                        this.immersive_freezing$vignetteTargetWidth,
-                                                        this.immersive_freezing$vignetteTargetHeight,
-                                                        frostYDownsample), "debugText")),
-                                        pad + 14, pad + 38, 0xB0B0B0, false);
-                }
-
                 CommandEncoder encoder = RenderSystem.getDevice().createCommandEncoder();
 
                 // Params packed into a vec4 (std140):
                 // - x: progress (0..1)
                 // - y: disturbance intensity (0..1)
-                // - z: debug flag (0 = debug visualization, 1 = normal rendering)
+                // - z: reserved
                 // - w: vignette range (0..1)
                 try (GpuBuffer.MappedView view = encoder.mapBuffer(settingsBuffer, false, true)) {
                         Std140Builder builder = Std140Builder.intoBuffer(view.data());
-                        builder.putVec4(progress, disturbanceIntensity, debugFlag, rangePacked);
+                        builder.putVec4(progress, disturbanceIntensity, 0.0f, rangePacked);
                         builder.putVec4((float) frostYDownsample, 0.0f, 0.0f, 0.0f);
                 }
 
