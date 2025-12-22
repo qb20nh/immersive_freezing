@@ -5,6 +5,7 @@
 	"client": [
 		"CameraShakeMixin",
 		"FreezeOverlayFadeMixin",
+		"GuiGraphicsInvoker",
 		"ItemInHandTrembleMixin",
 		"PostChainAccessor",
 		"PostPassAccessor",

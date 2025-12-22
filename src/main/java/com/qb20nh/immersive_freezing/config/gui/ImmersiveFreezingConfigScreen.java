@@ -109,6 +109,11 @@ public final class ImmersiveFreezingConfigScreen extends OptionsSubScreen {
                                 newValue -> config.vignetteDebugEnabled = newValue));
 
                 list.addBig(OptionInstance.createBoolean(
+                                "option.immersive_freezing.vignette_half_frost_height",
+                                config.vignetteHalfFrostHeight,
+                                newValue -> config.vignetteHalfFrostHeight = newValue));
+
+                list.addBig(OptionInstance.createBoolean(
                                 "option.immersive_freezing.whiteout_enabled",
                                 config.whiteoutEnabled,
                                 newValue -> config.whiteoutEnabled = newValue));

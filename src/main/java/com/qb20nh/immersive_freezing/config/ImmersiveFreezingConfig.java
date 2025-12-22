@@ -35,6 +35,12 @@ public final class ImmersiveFreezingConfig {
     public float vignetteSpeed = 1.0f;
     public float vignetteDisturbanceIntensity = 1.0f;
     public boolean vignetteDebugEnabled = false;
+    /**
+     * Some resource packs (and/or merged jars) ship the vanilla powder-snow overlay texture at a
+     * height that is effectively 2x the expected texel grid for the overlay effect. When enabled,
+     * the mod treats the texture as half-height by downsampling in Y with nearest-neighbor.
+     */
+    public boolean vignetteHalfFrostHeight = true;
 
     public boolean whiteoutEnabled = true;
     public float whiteoutIntensity = 0.35f;
@@ -94,6 +100,7 @@ public final class ImmersiveFreezingConfig {
         this.vignetteSpeed = other.vignetteSpeed;
         this.vignetteDisturbanceIntensity = other.vignetteDisturbanceIntensity;
         this.vignetteDebugEnabled = other.vignetteDebugEnabled;
+        this.vignetteHalfFrostHeight = other.vignetteHalfFrostHeight;
         this.whiteoutEnabled = other.whiteoutEnabled;
         this.whiteoutIntensity = other.whiteoutIntensity;
         this.freezeSoundVolume = other.freezeSoundVolume;

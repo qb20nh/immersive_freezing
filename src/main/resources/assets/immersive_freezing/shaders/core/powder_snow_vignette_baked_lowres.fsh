@@ -14,8 +14,17 @@ layout(std140) uniform Globals {
     int _UseRgss;
 };
 
-in vec2 texCoord0;
-in vec4 vertexColor;
+// Bound dynamically by the mod (std140).
+// - x: progress (0..1)
+// - y: disturbance intensity (0..1)
+// - z: debug flag (0 = debug visualization, 1 = normal rendering)
+// - w: vignette range (0..1, normalized by VIGNETTE_RANGE_MAX on the Java side)
+layout(std140) uniform VignetteSettings {
+    vec4 _VignetteParams;
+    // - x: frost texture Y downsample factor (1 or 2)
+    // - yzw: reserved
+    vec4 _VignetteTexParams;
+};
 
 out vec4 fragColor;
 
@@ -52,21 +61,58 @@ float immersive_freezing_fbm(vec2 p) {
 }
 
 void main() {
-    vec4 tex = texture(Sampler0, texCoord0);
+    vec4 params = _VignetteParams;
+    float progress = clamp(params.x, 0.0, 1.0);
+    float intensity = clamp(params.y, 0.0, 1.0);
+    float debugFlag = clamp(params.z, 0.0, 1.0);
+    float rangeNorm = clamp(params.w, 0.0, 1.0);
+    float frostYDownsampleF = max(_VignetteTexParams.x, 1.0);
+    int frostYDownsample = int(frostYDownsampleF + 0.5);
 
-    // Inputs packed via vertex color:
-    // - A: progress (0..1)
-    // - R: disturbance intensity (0..1)
-    // - G: debug flag (0 = debug visualization, 1 = normal rendering)
-    // - B: vignette range (0..1, normalized by VIGNETTE_RANGE_MAX on the Java side)
-    float intensity = clamp(vertexColor.r, 0.0, 1.0);
-    float progress = clamp(vertexColor.a, 0.0, 1.0);
-    float debugFlag = clamp(vertexColor.g, 0.0, 1.0);
-    float rangeNorm = clamp(vertexColor.b, 0.0, 1.0);
-    float rangeScale = max(rangeNorm * 10.0, 0.1);
     if (progress <= 0.0) {
         discard;
     }
+
+    // IMPORTANT: Use integer texel addressing so the frost texture sampling and the vignette mask
+    // both operate on the exact same texel grid.
+    //
+    // gl_FragCoord origin is bottom-left, but the vanilla GUI overlay treats v=0 as the TOP of the
+    // frost texture. Map framebuffer pixel -> frost texel with an explicit Y flip.
+    ivec2 frostSizeI = textureSize(Sampler0, 0);
+    frostSizeI = max(frostSizeI, ivec2(1, 1));
+    ivec2 outSizeI = ivec2(frostSizeI.x, max(frostSizeI.y / frostYDownsample, 1));
+
+    ivec2 pix = ivec2(gl_FragCoord.xy);
+    pix = clamp(pix, ivec2(0), outSizeI - ivec2(1));
+
+    int srcY = (frostSizeI.y - 1) - (pix.y * frostYDownsample);
+    srcY = clamp(srcY, 0, frostSizeI.y - 1);
+    ivec2 srcTexel = ivec2(pix.x, srcY);
+    vec4 frost = texelFetch(Sampler0, srcTexel, 0);
+
+    vec2 outSize = vec2(outSizeI);
+    vec2 uv = (vec2(pix) + vec2(0.5)) / outSize;
+
+    if (debugFlag < 0.5) {
+        // Debug mode: make the *output* texel grid undeniable (after optional Y downsample).
+        // - Top row: red
+        // - Bottom row: blue
+        // - Alternating horizontal stripes: yellow / cyan
+        if (pix.y == 0) {
+            fragColor = vec4(1.0, 0.0, 0.0, 1.0);
+            return;
+        }
+        if (pix.y == outSizeI.y - 1) {
+            fragColor = vec4(0.0, 0.0, 1.0, 1.0);
+            return;
+        }
+
+        bool odd = (pix.y & 1) != 0;
+        fragColor = odd ? vec4(0.0, 1.0, 1.0, 1.0) : vec4(1.0, 1.0, 0.0, 1.0);
+        return;
+    }
+
+    float rangeScale = max(rangeNorm * 10.0, 0.1);
 
     // Distance from screen center in normalized UV coordinates.
     //
@@ -75,7 +121,7 @@ void main() {
     // Use pixel-center coordinates so the outer radius can reach the actual corner pixels.
     vec2 screen = max(_ScreenSize, vec2(1.0, 1.0));
     vec2 halfSpan = max(screen - vec2(1.0, 1.0), vec2(1.0, 1.0)) * 0.5;
-    vec2 centeredUv = (texCoord0 * screen - screen * 0.5) / halfSpan;
+    vec2 centeredUv = (uv * screen - screen * 0.5) / halfSpan;
 
     // Radial distance in UV space (non-clamped).
     // Normalize so dist==1.0 lands on the screen corners (not the midpoints of edges).
@@ -90,9 +136,8 @@ void main() {
 
     // Add a subtle organic disturbance to the "height" (edge threshold).
     // Use pixel-scaled coordinates so the noise looks consistent across resolutions.
-    vec2 noisePos = (texCoord0 * max(_ScreenSize, vec2(1.0, 1.0))) / 240.0;
+    vec2 noisePos = (uv * max(_ScreenSize, vec2(1.0, 1.0))) / 240.0;
     float n = immersive_freezing_fbm(noisePos);
-    // Disturbance should deform the fade edge while freezing, including near full freeze.
     float disturbanceFade = progress;
     float disturbancePx = 36.0 * intensity * disturbanceFade;
     float disturbance = disturbancePx * distPerPixel;
@@ -144,20 +189,7 @@ void main() {
         mask = mix(innerOpacity, 1.0, clamp(dist / available, 0.0, 1.0));
     }
 
-    if (debugFlag < 0.5) {
-        // Debug visualization (full opacity):
-        // - R: reveal mask (outside→inside)
-        // - G: edge highlight (shows ellipse + disturbance clearly)
-        // - B: noise value
-        float debugLineWidthPx = 2.0;
-        float debugLine = debugLineWidthPx * distPerPixel;
-        float innerEdge = 1.0 - smoothstep(0.0, debugLine, abs(dist - innerRadius));
-        float outerEdge = 1.0 - smoothstep(0.0, debugLine, abs(dist - outerRadiusClamped));
-        float edge = max(innerEdge, outerEdge);
-        fragColor = vec4(mask, edge, n, 1.0);
-        return;
-    }
-
-    float outA = tex.a * mask;
-    fragColor = vec4(tex.rgb, outA);
+    fragColor = vec4(frost.rgb, frost.a * mask);
 }
+
+
