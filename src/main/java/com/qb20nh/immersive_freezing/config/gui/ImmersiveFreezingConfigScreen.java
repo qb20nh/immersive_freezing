@@ -78,6 +78,10 @@ public final class ImmersiveFreezingConfigScreen extends OptionsSubScreen {
                                 Math.round(config.translationIntensity * 100.0f),
                                 newValue -> config.translationIntensity = newValue / 100.0f));
 
+                list.addBig(percentSlider("option.immersive_freezing.hand_tremble_intensity",
+                                Math.round(config.handTrembleIntensity * 100.0f),
+                                newValue -> config.handTrembleIntensity = newValue / 100.0f));
+
                 list.addBig(formattedIntSlider("option.immersive_freezing.vignette_range",
                                 vignetteRangeUiHundredths(config.vignetteRange),
                                 VIGNETTE_RANGE_GUI_HUNDREDTHS_MIN,

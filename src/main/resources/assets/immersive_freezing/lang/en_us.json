@@ -4,6 +4,7 @@
   "option.immersive_freezing.vignette_enabled": "Vignette Enabled",
   "option.immersive_freezing.rotation_intensity": "Rotation Intensity",
   "option.immersive_freezing.translation_intensity": "Translation Intensity",
+  "option.immersive_freezing.hand_tremble_intensity": "Hand Tremble Intensity",
   "option.immersive_freezing.vignette_range": "Vignette Range",
   "option.immersive_freezing.vignette_speed": "Vignette Speed",
   "option.immersive_freezing.vignette_disturbance_intensity": "Vignette Disturbance Intensity",

@@ -54,15 +54,14 @@ public abstract class ItemInHandTrembleMixin {
                 float scale = shiver.scale();
                 float time = shiver.time() + TIME_OFFSET;
 
-                float rotIntensity = config.rotationIntensity * scale;
-                float transIntensity = config.translationIntensity * scale;
+                float intensity = config.handTrembleIntensity * scale;
 
-                if (rotIntensity > 0.0f) {
-                        float pitch = (float) Math.sin(time * SHIVER_SPEED * 1.3f) * rotIntensity
+                if (intensity > 0.0f) {
+                        float pitch = (float) Math.sin(time * SHIVER_SPEED * 1.3f) * intensity
                                         * PITCH_DEGREES_SCALE;
-                        float yaw = (float) Math.cos(time * SHIVER_SPEED * 0.9f) * rotIntensity
+                        float yaw = (float) Math.cos(time * SHIVER_SPEED * 0.9f) * intensity
                                         * YAW_DEGREES_SCALE * invert;
-                        float roll = (float) Math.sin(time * SHIVER_SPEED * 1.7f) * rotIntensity
+                        float roll = (float) Math.sin(time * SHIVER_SPEED * 1.7f) * intensity
                                         * ROLL_DEGREES_SCALE * invert;
 
                         poseStack.mulPose(Axis.ZP.rotationDegrees(roll));
@@ -70,12 +69,12 @@ public abstract class ItemInHandTrembleMixin {
                         poseStack.mulPose(Axis.XP.rotationDegrees(pitch));
                 }
 
-                if (transIntensity > 0.0f) {
+                if (intensity > 0.0f) {
                         float phaseShift = (float) (Math.PI / 2);
-                        float x = (float) Math.sin(time * SHIVER_SPEED + phaseShift)
-                                        * transIntensity * TRANSLATION_SCALE * invert;
+                        float x = (float) Math.sin(time * SHIVER_SPEED + phaseShift) * intensity
+                                        * TRANSLATION_SCALE * invert;
                         float y = (float) Math.cos(time * SHIVER_SPEED * 1.5f + phaseShift)
-                                        * transIntensity * TRANSLATION_SCALE;
+                                        * intensity * TRANSLATION_SCALE;
                         poseStack.translate(x, y, 0.0f);
                 }
         }

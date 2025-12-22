@@ -28,6 +28,7 @@ public final class ImmersiveFreezingConfig {
 
     public float rotationIntensity = 0.7f;
     public float translationIntensity = 0.3f;
+    public float handTrembleIntensity = 0.5f;
 
     public boolean vignetteEnabled = true;
     public float vignetteRange = 1.0f;
@@ -87,6 +88,7 @@ public final class ImmersiveFreezingConfig {
     public void applyFrom(ImmersiveFreezingConfig other) {
         this.rotationIntensity = other.rotationIntensity;
         this.translationIntensity = other.translationIntensity;
+        this.handTrembleIntensity = other.handTrembleIntensity;
         this.vignetteEnabled = other.vignetteEnabled;
         this.vignetteRange = other.vignetteRange;
         this.vignetteSpeed = other.vignetteSpeed;
@@ -101,6 +103,7 @@ public final class ImmersiveFreezingConfig {
     public void validate() {
         rotationIntensity = clamp(rotationIntensity, 0.0f, 1.0f);
         translationIntensity = clamp(translationIntensity, 0.0f, 1.0f);
+        handTrembleIntensity = clamp(handTrembleIntensity, 0.0f, 1.0f);
         vignetteRange = clamp(vignetteRange, VIGNETTE_RANGE_MIN, VIGNETTE_RANGE_MAX);
         vignetteSpeed = clamp(vignetteSpeed, VIGNETTE_SPEED_MIN, VIGNETTE_SPEED_MAX);
         vignetteDisturbanceIntensity = clamp(vignetteDisturbanceIntensity, 0.0f, 1.0f);
